@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: accountsystemmanagement
+      MYSQL_USER: trinhvo
+      MYSQL_PASSWORD: trinhvo
+    ports:
+      - 3307:3307
+    volumes:
+      - /data/mysql
+    networks:
+      - backendNetwork
+     
+  AccountSystemManagementApi:
+    image: springapi
+    build:
+        context: ./AccountSystemManagement
+        # dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    volumes:
+      - /data/spring-boot-accountsystemmanagement
+    networks:
+      - backendNetwork
+      
+networks:
+  backendNetwork:
